@@ -3,16 +3,30 @@ import Hero from "@/components/main/Hero";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import React from "react";
 import svgBg from "@/assets/prism.png";
-import { Box } from "@chakra-ui/react";
-function main() {
+import { Box, Heading } from "@chakra-ui/react";
+import { useArticlesQuery } from "@/utils/api";
+
+function Main() {
+  const { data, isLoading, error } = useArticlesQuery();
   return (
     <DefaultLayout>
       <Box className='cusbg' paddingY='20'>
         <Hero />
       </Box>
-      <Articles />
+      <Heading
+        display={"flex"}
+        alignItems='center'
+        justifyContent={"center"}
+        mt={6}>
+        HeadLines
+      </Heading>
+      <Articles
+        data={data}
+        isLoading={isLoading}
+        error={error}
+      />
     </DefaultLayout>
   );
 }
 
-export default main;
+export default Main;

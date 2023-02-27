@@ -1,4 +1,8 @@
-import { IArticles, useArticlesQuery } from "@/utils/api";
+import {
+  IArticles,
+  IData,
+  useArticlesQuery,
+} from "@/utils/api";
 import {
   Box,
   Flex,
@@ -9,40 +13,39 @@ import {
 import React, { useEffect, useState } from "react";
 import ArticleCard from "./ArticleCard";
 
-function Articles() {
-  const { data, isLoading, error } = useArticlesQuery();
-  const [alteredData, setAlteredData] = useState<
-    IArticles[] | null
-  >(null);
-
+function Articles({
+  data,
+  isLoading,
+  error,
+}: {
+  data: IData | undefined;
+  isLoading: boolean;
+  error: any;
+}) {
   useEffect(() => {
-    if (data) {
-      const result: IArticles[] | null = Object.keys(
-        data as { [key: string]: any }
-      ).map((key) => (data as { [key: string]: any })[key]);
-      setAlteredData(result);
-    }
     if (error) {
       console.log(error);
     }
+    console.log(data);
   }, [data, error]);
 
   return (
-    <Box marginX='5'>
+    <Box marginX='5' paddingY={20}>
       <Grid
         templateColumns={{
           base: "repeat(1, 1fr)",
           md: "repeat(2, 1fr)",
-          lg: "repeat(4, 1fr)",
+          lg: "repeat(3, 1fr)",
         }}
         gap={4}>
-        {alteredData && !isLoading ? (
-          alteredData.map((e: IArticles, i) => (
+        {data?.articles && !isLoading ? (
+          data?.articles.map((e: any, i) => (
             <ArticleCard
               key={i}
               title={e.title}
-              source={e.source}
+              content={e.content}
               image={e.image}
+              description={e.description}
             />
           ))
         ) : (
@@ -67,6 +70,11 @@ function Articles() {
           </GridItem>
         )}
       </Grid>
+      {error && (
+        <Flex alignItems={"center"} justifyContent='center'>
+          Something went wrong
+        </Flex>
+      )}
     </Box>
   );
 }

@@ -7,11 +7,14 @@ import {
   SlideFade,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
 function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [isVisible2, setIsVisible2] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
       setIsVisible(true);
@@ -60,11 +63,18 @@ function Hero() {
               size='lg'
               bg={"white"}
               borderRightRadius={"0"}
+              value={searchText}
+              onChange={(e) =>
+                setSearchText(e.target.value)
+              }
             />
             <Button
               borderLeftRadius={"0"}
               background={"skyblue"}
-              paddingY='6'>
+              paddingY='6'
+              onClick={() =>
+                router.push(`/search/${searchText}`)
+              }>
               Search
             </Button>
           </Flex>
