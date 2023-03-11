@@ -19,6 +19,9 @@ export interface IData {
   articles: IArticles[];
   totalArticles: number;
 }
+export interface Iq {
+  q: string | string[] | undefined;
+}
 const apiKeyQuery: string =
   "apikey=a93f06b455862d57b2fe52785a101697";
 export const articlesApi = createApi({
@@ -32,7 +35,7 @@ export const articlesApi = createApi({
       query: () =>
         `/top-headlines?category=general&lang=en&max=50&${apiKeyQuery}`,
     }),
-    search: builder.query<IData, void>({
+    search: builder.query<IData, Iq>({
       query: (q) =>
         `/search?q=${q}&lang=en&max=50&${apiKeyQuery}`,
     }),

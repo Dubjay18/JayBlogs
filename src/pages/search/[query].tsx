@@ -5,14 +5,14 @@ import React, { useEffect } from "react";
 
 function Search() {
   const router = useRouter();
-  let { query } = router.query;
+  let query: any = router.query.query;
   const { data, isLoading, error, refetch } =
     useSearchQuery(query);
   useEffect(() => {
     if (query) {
       refetch();
     }
-  }, [query]);
+  }, [query, refetch]);
   if (error) {
     console.log(query, error, data);
   }
