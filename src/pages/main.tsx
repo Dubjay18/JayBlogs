@@ -4,10 +4,11 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import React from "react";
 import svgBg from "@/assets/prism.png";
 import { Box, Heading } from "@chakra-ui/react";
-import { useArticlesQuery } from "@/utils/api";
+import { IArticles, IData, useArticlesQuery } from "@/utils/api";
 
-function Main() {
+function Main({ dataReal }: IData) {
   const { data, isLoading, error } = useArticlesQuery();
+  console.log(dataReal, "stuff");
   return (
     <DefaultLayout>
       <Box className='cusbg' paddingY='20'>
@@ -21,7 +22,7 @@ function Main() {
         HeadLines
       </Heading>
       <Articles
-        data={data}
+        data={dataReal}
         isLoading={isLoading}
         error={error}
       />
@@ -29,4 +30,15 @@ function Main() {
   );
 }
 
+export const getServerSideProps = async () => {
+  const apiResponse = await fetch(
+    `http://api.mediastack.com/v1/news?access_key=${process.env.MEDIASTACK_KEY}&sources=cnn,-bbc`
+  );
+  const data = await apiResponse.json();
+  return {
+    props: {
+      dataReal: data,
+    },
+  };
+};
 export default Main;

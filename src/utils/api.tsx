@@ -8,16 +8,23 @@ export interface IArticles {
   description: string;
   content: string;
   url?: string;
-  source?: {
-    name?: string;
-    url?: string;
-  };
+  source?: string;
   region?: string;
   image: string;
+  author?: string;
+  category?: string;
+  language?: string;
+  country?: string;
+  published_at?: string;
 }
 export interface IData {
-  articles: IArticles[];
-  totalArticles: number;
+  data: IArticles[];
+  pagination: {
+    limit?: number;
+    offset?: number;
+    count?: number;
+    total?: number;
+  };
 }
 export interface Iq {
   q: string | string[] | undefined;
@@ -27,17 +34,17 @@ const apiKeyQuery: string =
 export const articlesApi = createApi({
   reducerPath: "articlesApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://gnews.io/api/v4",
+    baseUrl: "http://api.mediastack.com/v1",
   }),
 
   endpoints: (builder) => ({
     articles: builder.query<IData, void>({
       query: () =>
-        `/top-headlines?category=general&lang=en&max=50&${apiKeyQuery}`,
+        `/news?access_key=${process.env.MEDIASTACK_KEY}&sources=cnn,-bbc`,
     }),
     search: builder.query<IData, Iq>({
       query: (q) =>
-        `/search?q=${q}&lang=en&max=50&${apiKeyQuery}`,
+        `/news?access_key=${process.env.MEDIASTACK_KEY}?&keywords=${q}`,
     }),
   }),
 });

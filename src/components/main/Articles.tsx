@@ -38,14 +38,15 @@ function Articles({
           lg: "repeat(3, 1fr)",
         }}
         gap={4}>
-        {data?.articles && !isLoading ? (
-          data?.articles.map((e: any, i) => (
+        {data?.data && !isLoading ? (
+          data?.data.map((e: any, i) => (
             <ArticleCard
               key={i}
               title={e.title}
               content={e.content}
               image={e.image}
               description={e.description}
+              url={e.url}
             />
           ))
         ) : (
