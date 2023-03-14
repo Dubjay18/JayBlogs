@@ -4,9 +4,13 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import React from "react";
 import svgBg from "@/assets/prism.png";
 import { Box, Heading } from "@chakra-ui/react";
-import { IArticles, IData, useArticlesQuery } from "@/utils/api";
+import {
+  IArticles,
+  IData,
+  useArticlesQuery,
+} from "@/utils/api";
 
-function Main({ dataReal }: IData) {
+function Main({ dataReal }: { dataReal: any }) {
   const { data, isLoading, error } = useArticlesQuery();
   console.log(dataReal, "stuff");
   return (
